@@ -1,0 +1,41 @@
+---
+title: Pass
+description: Restrict page access using secret pass code.
+author: Taufik Nurrohman
+type: Markdown
+version: 2.0.0
+
+dependency:
+  extension:
+    - page
+...
+
+### Usage
+
+Create a page file then add a `pass` property contains the pass code:
+
+~~~ .yaml
+---
+title: My Secret Diary
+description: This is a long story about my life.
+type: Markdown
+pass: b4d455
+...
+
+Page content goes here.
+~~~
+
+Set custom question by putting it in the `q` property of the `pass` property, then put the answer in the `a` property:
+
+~~~ .yaml
+---
+title: My Secret Diary
+description: This is a long story about my life.
+type: Markdown
+pass:
+  q: What’s my sister’s name?
+  a: alice
+...
+
+Page content goes here.
+~~~

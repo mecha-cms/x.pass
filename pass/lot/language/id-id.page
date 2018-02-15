@@ -1,0 +1,11 @@
+---
+type: YAML
+...
+
+plugin_pass:
+  q: Halaman ini diproteksi dengan kata kunci. Mohon masukkan kata kunci untuk mengakses halaman!
+  a: ~
+
+  message_error_pass: Jawaban salah!
+  message_error_token: Token tidak valid.
+  message_error_void: Mohon isi bidang jawaban!

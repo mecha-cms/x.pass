@@ -1,0 +1,11 @@
+---
+type: YAML
+...
+
+plugin_pass:
+  q: This page is password protected. Please enter the password to get access!
+  a: ~
+
+  message_error_pass: Wrong answer!
+  message_error_token: Invalid token.
+  message_error_void: Please fill out the answer field!
