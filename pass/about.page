@@ -3,16 +3,15 @@ title: Pass
 description: Restrict page access using secret pass code.
 author: Taufik Nurrohman
 type: Markdown
-version: 2.1.0
+version: 2.2.2
 
-dependency:
-  extension:
-    - page
+use:
+  '.\lot\x\page': 1
 ...
 
 ### Usage
 
-Create a page file then add a `pass` property contains the pass code:
+Create a page then add a `pass` property with pass code as the value:
 
 ~~~ .yaml
 ---
@@ -33,11 +32,10 @@ title: My Secret Diary
 description: This is a long story about my life.
 type: Markdown
 pass:
-  q: What’s my sister’s name?
-  a: alice
+  q: What’s my sister’s name?  # question
+  a: alice  # answer
+  h: One word.  # hints
 ...
 
 Page content goes here.
 ~~~
-
-<!-- block:donate -->
