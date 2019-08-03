@@ -1,4 +1,4 @@
-<form action="<?php echo $url->clean . '/.pass' . $url->query('&amp;'); ?>" class="form-pass form-pass:enter" method="post" name="pass">
+<form action="<?php echo $url . '/.pass' . $url->path . $url->query('&amp;'); ?>" class="form-pass form-pass:enter" method="post" name="pass">
   <?php echo $alert; ?>
   <?php if (!empty($page->pass['q'])): ?>
   <p><?php echo $page->pass['q']; ?></p>

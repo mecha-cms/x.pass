@@ -3,11 +3,11 @@
 function route($form, $k) {
     global $config, $language, $page;
     $GLOBALS['t'][] = $page->title;
-    if ($k === 'post' && \substr($this[0], -6) === '/.pass') {
-        $errors = 0;
-        if (!isset($form['token']) || !\Guard::check($form['token'], 'pass')) {
-            \Alert::error('token');
-            ++$errors;
+    if ($k === 'post' && \strpos($this[0], '.pass/') === 0) {
+        $error = $form['_error'] ?? 0;
+        if (\Is::void($form['token']) || !\Guard::check($form['token'], 'pass')) {
+            \Alert::error('pass-token');
+            ++$error;
         }
         if (!empty($form['pass']['a'])) {
             if (isset($page['pass'])) {
@@ -19,7 +19,7 @@ function route($form, $k) {
                 } else {
                     $enter = $a === $b;
                 }
-                if ($enter) {
+                if ($enter && $error === 0) {
                     \Cookie::set('page.pass', $a, '1 day');
                     \Alert::success('pass');
                 } else {
@@ -29,9 +29,9 @@ function route($form, $k) {
                 \Alert::error('pass');
             }
         } else {
-            \Alert::error('void-field', $language->pass, true);
+            \Alert::error('pass-void-field', $language->pass, true);
         }
-        \Guard::kick(\dirname($this[0]));
+        \Guard::kick(\explode('/', $this[0], 2)[1]);
     }
     $this->status(403);
     $this->content(__DIR__ . DS . 'content' . DS . 'page.php');

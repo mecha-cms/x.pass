@@ -1,10 +1,14 @@
 <?php namespace _\lot\x\pass;
 
 function check() {
-    global $url;
+    $url = $GLOBALS['url'];
     $chops = explode('/', \trim($url->path, '/'));
     $p = PAGE;
     $page = false;
+    if (\HTTP::is('post')) {
+        // Remove the `.pass` prefix in URL path
+        \array_shift($chops);
+    }
     while ($chop = \array_shift($chops)) {
         $p .= DS . $chop;
         if ($file = \File::exist([
@@ -16,7 +20,7 @@ function check() {
             } else {
                 foreach (\stream($file) as $k => $v) {
                     if ($k === 0 && $v !== '---') {
-                        // No header marker means no `pass` property found
+                        // No header marker means no property at all
                         break;
                     }
                     if ($v === '...') {
@@ -51,4 +55,4 @@ function check() {
     }
 }
 
-\Hook::set('start', __NAMESPACE__ . "\check", 0);
+\Hook::set('start', __NAMESPACE__ . "\\check", 0);
