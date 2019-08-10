@@ -2,10 +2,10 @@
 
 function check() {
     $url = $GLOBALS['url'];
-    $chops = explode('/', \trim($url->path, '/'));
+    $chops = \explode('/', \trim($url->path, '/'));
     $p = PAGE;
     $page = false;
-    if (\HTTP::is('post')) {
+    if (\_is('post')) {
         // Remove the `.pass` prefix in URL path
         \array_shift($chops);
     }
@@ -47,7 +47,7 @@ function check() {
             // Do nothing!
         } else {
             // Redirect to parent page that has `pass` property
-            if (\HTTP::is('get') && \strpos($url->clean, $page->url . '/') === 0) {
+            if (\_is('get') && \strpos($url->clean, $page->url . '/') === 0) {
                 \Guard::kick($page->url . $url->query);
             }
             require __DIR__ . DS . 'route.php';
