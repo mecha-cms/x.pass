@@ -3,19 +3,19 @@
 function check() {
     $url = $GLOBALS['url'];
     $chops = \explode('/', \trim($url->path, '/'));
-    $p = PAGE;
+    $p = \PAGE;
     $page = false;
     if (\Request::is('post')) {
         // Remove the `.pass` prefix in URL path
         \array_shift($chops);
     }
     while ($chop = \array_shift($chops)) {
-        $p .= DS . $chop;
+        $p .= \DS . $chop;
         if ($file = \File::exist([
             $p . '.page',
             $p . '.archive'
         ])) {
-            if (\is_file($p . DS . 'pass.data')) {
+            if (\is_file($p . \DS . 'pass.data')) {
                 $page = new \Page($file);
             } else {
                 foreach (\stream($file) as $k => $v) {
@@ -50,7 +50,7 @@ function check() {
             if (\Request::is('get') && \strpos($url->clean, $page->url . '/') === 0) {
                 \Guard::kick($page->url . $url->query);
             }
-            require __DIR__ . DS . 'route.php';
+            require __DIR__ . \DS . 'route.php';
         }
     }
 }

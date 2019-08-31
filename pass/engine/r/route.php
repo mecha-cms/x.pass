@@ -5,7 +5,7 @@ function route($form, $k) {
     $GLOBALS['t'][] = $page->title;
     if ($k === 'post' && \strpos($this[0], '.pass/') === 0) {
         $error = $form['_error'] ?? 0;
-        if (\Is::void($form['token']) || !\Guard::check($form['token'], 'pass')) {
+        if (empty($form['token']) || !\Guard::check($form['token'], 'pass')) {
             \Alert::error('pass-token');
             ++$error;
         }
@@ -14,7 +14,7 @@ function route($form, $k) {
                 $a = (string) $form['pass']['a'] ?? "";
                 $b = (string) isset($page['pass']['a']) ? $page['pass']['a'] : $page['pass'];
                 $enter = false;
-                if (\strpos($b, P) === 0) {
+                if (\strpos($b, \P) === 0) {
                     $enter = \password_verify($a, \substr($b, 1));
                 } else {
                     $enter = $a === $b;
@@ -34,7 +34,7 @@ function route($form, $k) {
         \Guard::kick(\explode('/', $this[0], 2)[1]);
     }
     $this->status(403);
-    $this->content(__DIR__ . DS . 'content' . DS . 'page.php');
+    $this->content(__DIR__ . \DS . 'content' . \DS . 'page.php');
 }
 
 // Override the `*` route address
