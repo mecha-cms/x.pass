@@ -33,6 +33,7 @@ function route($form, $k) {
         }
         \Guard::kick(\explode('/', $this[0], 2)[1]);
     }
+    \Config::set('has.pass', true);
     $this->status(403);
     $this->content(__DIR__ . \DS . 'content' . \DS . 'page.php');
 }
