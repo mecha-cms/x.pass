@@ -1,17 +1,17 @@
 <?php namespace _\lot\x\pass;
 
-function route($form, $k) {
-    global $config, $language, $page;
+function route($lot, $type) {
+    global $language, $page, $state;
     $GLOBALS['t'][] = $page->title;
-    if ($k === 'post' && \strpos($this[0], '.pass/') === 0) {
-        $error = $form['_error'] ?? 0;
-        if (empty($form['token']) || !\Guard::check($form['token'], 'pass')) {
+    if ($type === 'Post' && \strpos($this[0], '.pass/') === 0) {
+        $error = $lot['_error'] ?? 0;
+        if (empty($lot['token']) || !\Guard::check($lot['token'], 'pass')) {
             \Alert::error('pass-token');
             ++$error;
         }
-        if (!empty($form['pass']['a'])) {
+        if (!empty($lot['pass']['a'])) {
             if (isset($page['pass'])) {
-                $a = (string) $form['pass']['a'] ?? "";
+                $a = (string) $lot['pass']['a'] ?? "";
                 $b = (string) isset($page['pass']['a']) ? $page['pass']['a'] : $page['pass'];
                 $enter = false;
                 if (\strpos($b, \P) === 0) {
@@ -33,7 +33,7 @@ function route($form, $k) {
         }
         \Guard::kick(\explode('/', $this[0], 2)[1]);
     }
-    \Config::set('has.pass', true);
+    \State::set('has.pass', true);
     $this->status(403);
     $this->content(__DIR__ . \DS . 'content' . \DS . 'page.php');
 }

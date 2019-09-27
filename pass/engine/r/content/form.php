@@ -5,5 +5,5 @@
   <?php endif; ?>
   <p title="<?php echo $page->pass['h'] ?? $language->pass; ?>"><input autofocus class="input width" name="pass[a]" placeholder="<?php echo $page->pass['h'] ?? (is_array($page->pass) ? "" : $language->pass); ?>" type="password"></p>
   <p><button class="button" type="submit"><?php echo $language->doEnter; ?></button></p>
-  <input name="token" type="hidden" value="<?php echo token('pass'); ?>">
+  <input name="token" type="hidden" value="<?php echo Guard::token('pass'); ?>">
 </form>
