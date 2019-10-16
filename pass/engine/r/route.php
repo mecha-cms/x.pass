@@ -1,12 +1,12 @@
 <?php namespace _\lot\x\pass;
 
 function route($lot, $type) {
-    global $language, $page, $state;
+    global $page, $state;
     $GLOBALS['t'][] = $page->title;
     if ($type === 'Post' && \strpos($this[0], '.pass/') === 0) {
         $error = $lot['_error'] ?? 0;
         if (empty($lot['token']) || !\Guard::check($lot['token'], 'pass')) {
-            \Alert::error('pass-token');
+            \Alert::error('Invalid token.');
             ++$error;
         }
         if (!empty($lot['pass']['a'])) {
@@ -21,15 +21,15 @@ function route($lot, $type) {
                 }
                 if ($enter && $error === 0) {
                     \Cookie::set('page.pass', $a, '1 day');
-                    \Alert::success('pass');
+                    \Alert::success('Correct answer. Congratulation!');
                 } else {
-                    \Alert::error('pass');
+                    \Alert::error('Wrong answer!');
                 }
             } else {
-                \Alert::error('pass');
+                \Alert::error('Wrong answer!');
             }
         } else {
-            \Alert::error('pass-void-field', $language->pass, true);
+            \Alert::error('Please fill out the %s field.', 'Pass');
         }
         \Guard::kick(\explode('/', $this[0], 2)[1]);
     }
