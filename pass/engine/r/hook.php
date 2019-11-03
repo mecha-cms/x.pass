@@ -19,18 +19,18 @@ function check() {
                 $page = new \Page($file);
             } else {
                 foreach (\stream($file) as $k => $v) {
-                    if ($k === 0 && $v !== '---') {
+                    if (0 === $k && '---' !== $v) {
                         // No header marker means no property at all
                         break;
                     }
-                    if ($v === '...') {
+                    if ('...' === $v) {
                         // End header marker means no `pass` property found
                         break;
                     }
                     if (
-                        \strpos($v, 'pass:') === 0 ||
-                        \strpos($v, '"pass":') === 0 ||
-                        \strpos($v, "'pass':") === 0
+                        0 === \strpos($v, 'pass:') ||
+                        0 === \strpos($v, '"pass":') ||
+                        0 === \strpos($v, "'pass':")
                     ) {
                         $page = new \Page($file); // Found one!
                         break;
@@ -47,7 +47,7 @@ function check() {
             // Do nothing!
         } else {
             // Redirect to parent page that has `pass` property
-            if (\Request::is('get') && \strpos($url->clean, $page->url . '/') === 0) {
+            if (\Request::is('Get') && 0 === \strpos($url->clean, $page->url . '/')) {
                 \Guard::kick($page->url . $url->query);
             }
             require __DIR__ . \DS . 'route.php';

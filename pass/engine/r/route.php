@@ -1,10 +1,11 @@
 <?php namespace _\lot\x\pass;
 
-function route($lot, $type) {
+function route($any) {
     global $page, $state;
     $GLOBALS['t'][] = $page->title;
-    if ($type === 'Post' && \strpos($this[0], '.pass/') === 0) {
-        $error = $lot['_error'] ?? 0;
+    if (\Request::is('Post') && 0 === \strpos($any, '.pass/')) {
+        $error = 0;
+        $lot = \Post::get();
         if (empty($lot['token']) || !\Guard::check($lot['token'], 'pass')) {
             \Alert::error('Invalid token.');
             ++$error;
@@ -14,12 +15,12 @@ function route($lot, $type) {
                 $a = (string) $lot['pass']['a'] ?? "";
                 $b = (string) isset($page['pass']['a']) ? $page['pass']['a'] : $page['pass'];
                 $enter = false;
-                if (\strpos($b, \P) === 0) {
+                if (0 === \strpos($b, \P)) {
                     $enter = \password_verify($a, \substr($b, 1));
                 } else {
                     $enter = $a === $b;
                 }
-                if ($enter && $error === 0) {
+                if ($enter && 0 === $error) {
                     \Cookie::set('page.pass', $a, '1 day');
                     \Alert::success('Correct answer. Congratulation!');
                 } else {
@@ -31,11 +32,11 @@ function route($lot, $type) {
         } else {
             \Alert::error('Please fill out the %s field.', 'Pass');
         }
-        \Guard::kick(\explode('/', $this[0], 2)[1]);
+        \Guard::kick(\explode('/', $any, 2)[1]);
     }
     \State::set('has.pass', true);
     $this->status(403);
-    $this->content(__DIR__ . \DS . 'content' . \DS . 'page.php');
+    $this->view(__DIR__ . \DS . 'layout' . \DS . 'page.php');
 }
 
 // Override the `*` route address
