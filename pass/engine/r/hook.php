@@ -55,4 +55,4 @@ function check() {
     }
 }
 
-\Hook::set('start', __NAMESPACE__ . "\\check", 0);
+\Hook::set('get', __NAMESPACE__ . "\\check", 0);
