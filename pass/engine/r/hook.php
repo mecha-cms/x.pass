@@ -19,6 +19,7 @@ function check() {
                 $page = new \Page($file);
             } else {
                 foreach (\stream($file) as $k => $v) {
+                    $v = trim($v, "\n");
                     if (0 === $k && '---' !== $v) {
                         // No header marker means no property at all
                         break;
