@@ -3,9 +3,9 @@
 function check() {
     $url = $GLOBALS['url'];
     $chops = \explode('/', \trim($url->path, '/'));
-    $p = \PAGE;
+    $p = \LOT . \DS . 'page';
     $page = false;
-    if (\Request::is('post')) {
+    if (\Request::is('Post')) {
         // Remove the `.pass` prefix in URL path
         \array_shift($chops);
     }
