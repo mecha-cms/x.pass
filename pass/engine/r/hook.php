@@ -19,12 +19,11 @@ function check() {
                 $page = new \Page($file);
             } else {
                 foreach (\stream($file) as $k => $v) {
-                    $v = trim($v, "\n");
-                    if (0 === $k && '---' !== $v) {
+                    if (0 === $k && "---\n" !== $v) {
                         // No header marker means no property at all
                         break;
                     }
-                    if ('...' === $v) {
+                    if ("...\n" === $v) {
                         // End header marker means no `pass` property found
                         break;
                     }
