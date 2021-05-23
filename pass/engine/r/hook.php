@@ -1,40 +1,54 @@
-<?php namespace _\lot\x\pass;
+<?php namespace x\pass;
+
+function alter($content) {
+    if (!empty($this['pass'])) {
+        $pass = \Cookie::get('page.pass');
+        $a = \is_array($this['pass']) ? ($this['pass']['a'] ?? "") : $this['pass'];
+        if ($pass && $pass === (string) $a) {
+            return $content;
+        }
+        return '<p><em>' . \i('This %s is protected by a password.', ['page']) . '</em></p>';
+    }
+    return $content;
+}
 
 function check() {
-    $url = $GLOBALS['url'];
-    $chops = \explode('/', \trim($url->path, '/'));
-    $p = \LOT . \DS . 'page';
+    extract($GLOBALS);
+    $chops = \explode('/', $url['path']);
+    $folder = \LOT . \DS . 'page';
     $page = false;
     if (\Request::is('Post')) {
         // Remove the `.pass` prefix in URL path
         \array_shift($chops);
     }
     while ($chop = \array_shift($chops)) {
-        $p .= \DS . $chop;
+        $folder .= \DS . $chop;
         if ($file = \File::exist([
-            $p . '.page',
-            $p . '.archive'
+            $folder . '.archive',
+            $folder . '.page'
         ])) {
-            if (\is_file($p . \DS . 'pass.data')) {
+            if (\is_file($folder . \DS . 'pass.data')) {
                 $page = new \Page($file);
-            } else {
-                foreach (\stream($file) as $k => $v) {
-                    if (0 === $k && "---\n" !== $v) {
-                        // No header marker means no property at all
-                        break;
-                    }
-                    if ("...\n" === $v) {
-                        // End header marker means no `pass` property found
-                        break;
-                    }
-                    if (
-                        0 === \strpos($v, 'pass:') ||
-                        0 === \strpos($v, '"pass":') ||
-                        0 === \strpos($v, "'pass':")
-                    ) {
-                        $page = new \Page($file); // Found one!
-                        break;
-                    }
+                break;
+            }
+            $start = \defined("\\YAML\\SOH") ? \YAML\SOH : '---';
+            $end = \defined("\\YAML\\EOT") ? \YAML\EOT : '...';
+            foreach (\stream($file) as $k => $v) {
+                if (0 === $k && $start . "\n" !== $v) {
+                    // No header marker means no property at all
+                    break;
+                }
+                if ($end . "\n" === $v) {
+                    // End header marker means no `pass` property found
+                    break;
+                }
+                if (
+                    0 === \strpos($v, 'pass:') ||
+                    0 === \strpos($v, '"pass":') ||
+                    0 === \strpos($v, "'pass':")
+                ) {
+                    $page = new \Page($file); // Found one!
+                    break;
                 }
             }
         }
@@ -42,7 +56,7 @@ function check() {
     if ($page) {
         $GLOBALS['page'] = $page;
         $pass = \Cookie::get('page.pass');
-        $a = isset($page['pass']['a']) ? $page['pass']['a'] : $page['pass'];
+        $a = \is_array($page['pass']) ? ($page['pass']['a'] ?? "") : $page['pass'];
         if ($pass && $pass === (string) $a) {
             // Do nothing!
         } else {
@@ -54,5 +68,10 @@ function check() {
         }
     }
 }
+
+\Hook::set([
+    'page.content',
+    'page.excerpt' // `.\lot\x\excerpt`
+], __NAMESPACE__ . "\\alter", 100);
 
 \Hook::set('get', __NAMESPACE__ . "\\check", 0);

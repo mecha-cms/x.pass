@@ -3,7 +3,7 @@ title: Pass
 description: Restrict page access using secret pass code.
 author: Taufik Nurrohman
 type: Markdown
-version: 2.3.2
+version: 2.4.0
 
 use:
   '.\lot\x\page': 1
