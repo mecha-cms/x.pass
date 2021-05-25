@@ -12,8 +12,8 @@ function route($any) {
         }
         if (!empty($lot['pass']['a'])) {
             if (isset($page['pass'])) {
-                $a = (string) ($lot['pass']['a'] ?? "");
-                $b = (string) (isset($page['pass']['a']) ? $page['pass']['a'] : $page['pass']);
+                $a = \trim((string) ($lot['pass']['a'] ?? ""));
+                $b = \trim((string) (\is_array($page['pass']) ? ($page['pass']['a'] ?? "") : $page['pass']));
                 $enter = false;
                 if (0 === \strpos($b, \P)) {
                     $enter = \password_verify($a, \substr($b, 1));

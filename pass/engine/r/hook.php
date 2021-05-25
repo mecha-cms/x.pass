@@ -3,7 +3,7 @@
 function alter($content) {
     if (!empty($this['pass'])) {
         $pass = \Cookie::get('page.pass');
-        $a = \is_array($this['pass']) ? ($this['pass']['a'] ?? "") : $this['pass'];
+        $a = \trim(\is_array($this['pass']) ? ($this['pass']['a'] ?? "") : $this['pass']);
         if ($pass && $pass === (string) $a) {
             return $content;
         }
@@ -56,7 +56,7 @@ function check() {
     if ($page) {
         $GLOBALS['page'] = $page;
         $pass = \Cookie::get('page.pass');
-        $a = \is_array($page['pass']) ? ($page['pass']['a'] ?? "") : $page['pass'];
+        $a = \trim(\is_array($page['pass']) ? ($page['pass']['a'] ?? "") : $page['pass']);
         if ($pass && $pass === (string) $a) {
             // Do nothing!
         } else {
