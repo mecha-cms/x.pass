@@ -32,7 +32,7 @@ function route($any) {
         } else {
             \Alert::error('Please fill out the %s field.', 'Pass');
         }
-        \Guard::kick(\explode('/', $any, 2)[1]);
+        \Guard::kick('/' . \explode('/', $any, 2)[1]);
     }
     \State::set([
         'has' => ['pass' => true],

@@ -1,7 +1,7 @@
 <?php namespace x\pass;
 
 function alter($content) {
-    if (!empty($this['pass'])) {
+    if (!empty($this['pass']) && 0 !== \strpos($this->path, \LOT . \DS . 'user' . \DS)) {
         $pass = \Cookie::get('page.pass');
         $a = \trim(\is_array($this['pass']) ? ($this['pass']['a'] ?? "") : $this['pass']);
         if ($pass && $pass === (string) $a) {
