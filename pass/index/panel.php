@@ -7,6 +7,9 @@ Hook::set('_', function($_) {
         $num_3 = $num_1 + $num_2;
         $page = new Page($_['f'] ?: null);
         $pass = (array) $page['pass'];
+        if (isset($pass[0]) && !isset($pass['a'])) {
+            $pass = ['a' => $pass[0]];
+        }
         $_['lot']['desk']['lot']['form']['lot'][1]['lot']['tabs']['lot']['pass'] = [
             'lot' => [
                 'fields' => [
@@ -34,7 +37,7 @@ Hook::set('_', function($_) {
                         ],
                         'h' => [
                             'title' => 'Hint',
-                            'hint' => ['The answer is numbers between %d to %d.', [0, 10]],
+                            'hint' => ['The answer is a number between %d to %d.', [0, 10]],
                             'type' => 'text',
                             'name' => 'data[pass][h]',
                             'value' => $pass['h'] ?? null,
