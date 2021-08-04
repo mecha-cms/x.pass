@@ -1,9 +1,6 @@
 Pass Extension for [Mecha](https://github.com/mecha-cms/mecha)
 ==============================================================
 
-> Restrict page access using secret pass code.
-
-
 Release Notes
 -------------
 
