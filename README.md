@@ -4,7 +4,7 @@ Pass Extension for [Mecha](https://github.com/mecha-cms/mecha)
 Release Notes
 -------------
 
-### main
+### 2.4.0
 
- - [x] Added GUI for the panel extension.
- - [ ] Updated for Mecha 2.6.0.
+ - Added GUI for the [panel](https://github.com/mecha-cms/x.panel) extension.
+ - Updated for Mecha 2.6.0.
