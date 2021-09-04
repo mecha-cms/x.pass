@@ -6,6 +6,7 @@ type: Markdown
 version: 2.4.0
 
 use:
+  '.\lot\x\asset': 1
   '.\lot\x\page': 1
 ...
 
