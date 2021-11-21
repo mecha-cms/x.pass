@@ -39,7 +39,7 @@ function route($any) {
         'is' => ['secret' => true]
     ]);
     $z = \defined("\\DEBUG") && \DEBUG ? '.' : '.min.';
-    \Asset::set(__DIR__ . \DS . '..' . \DS . '..' . \DS . 'lot' . \DS . 'asset' . \DS . 'css' . \DS . 'index' . $z . 'css', 10);
+    \Asset::set(__DIR__ . \DS . '..' . \DS . '..' . \DS . 'lot' . \DS . 'asset' . \DS . 'css' . \DS . 'index' . $z . 'css', 20.1);
     $this->status(403);
     $this->layout(__DIR__ . \DS . 'layout' . \DS . 'page.php');
 }
