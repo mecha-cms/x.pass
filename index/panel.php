@@ -5,7 +5,7 @@ Hook::set('_', function($_) {
         $num_1 = rand(0, 5);
         $num_2 = rand(0, 5);
         $num_3 = $num_1 + $num_2;
-        $page = new Page($_['f'] ?: null);
+        $page = new Page($_['file'] ?: null);
         $pass = (array) $page['pass'];
         if (isset($pass[0]) && !isset($pass['a'])) {
             $pass = ['a' => $pass[0]];

@@ -1,18 +1,22 @@
 <?php namespace x\pass;
 
-function route($any) {
-    extract($GLOBALS, \EXTR_SKIP);
+function route($content, $path, $query) {
+    if (null !== $content) {
+        return $content;
+    }
+    \extract($GLOBALS, \EXTR_SKIP);
     $GLOBALS['t'][] = $page->title;
-    if (\Request::is('Post') && 0 === \strpos($any, '.pass/')) {
+    $p = \trim($state->x->pass->route ?? "", '/');
+    $path = \trim($path ?? "", '/');
+    if ('POST' === $_SERVER['REQUEST_METHOD'] && 0 === \strpos($path . '/', $p . '/')) {
         $error = 0;
-        $lot = \Post::get();
-        if (empty($lot['token']) || !\Guard::check($lot['token'], 'pass')) {
+        if (empty($_POST['pass']['token']) || !\check($_POST['pass']['token'], 'pass')) {
             \Alert::error('Invalid token.');
             ++$error;
         }
-        if (!empty($lot['pass']['a'])) {
+        if (!empty($_POST['pass']['a'])) {
             if (isset($page['pass'])) {
-                $a = \trim((string) ($lot['pass']['a'] ?? ""));
+                $a = \trim((string) ($_POST['pass']['a'] ?? ""));
                 $b = \trim((string) (\is_array($page['pass']) ? ($page['pass']['a'] ?? "") : $page['pass']));
                 $enter = false;
                 if (0 === \strpos($b, \P)) {
@@ -21,7 +25,7 @@ function route($any) {
                     $enter = $a === $b;
                 }
                 if ($enter && 0 === $error) {
-                    \Cookie::set('page.pass', $a, '1 day');
+                    \cookie('page.pass', $a, '1 day');
                     \Alert::success('Correct answer! This page will remain open to you for the next 1 day.');
                 } else {
                     \Alert::error('Wrong answer!');
@@ -32,17 +36,15 @@ function route($any) {
         } else {
             \Alert::error('Please fill out the %s field.', 'Pass');
         }
-        \Guard::kick('/' . \explode('/', $any, 2)[1]);
+        \kick($_POST['pass']['kick'] ?? '/' . \explode('/', $path, 2)[1]);
     }
     \State::set([
         'has' => ['pass' => true],
         'is' => ['secret' => true]
     ]);
-    $z = \defined("\\DEBUG") && \DEBUG ? '.' : '.min.';
-    \Asset::set(__DIR__ . \DS . '..' . \DS . '..' . \DS . 'lot' . \DS . 'asset' . \DS . 'css' . \DS . 'index' . $z . 'css', 20.1);
-    $this->status(403);
-    $this->layout(__DIR__ . \DS . 'layout' . \DS . 'page.php');
+    $z = \defined("\\TEST") && \TEST ? '.' : '.min.';
+    \Asset::set(__DIR__ . \D . '..' . \D . '..' . \D . 'index' . $z . 'css', 20.1);
+    return [__DIR__ . \D . '..' . \D . 'y' . \D . 'pass.php', [], 403];
 }
 
-// Override the `*` route address
-\Route::set('*', __NAMESPACE__ . "\\route", 20);
+\Hook::set('route', __NAMESPACE__ . "\\route", 0);
