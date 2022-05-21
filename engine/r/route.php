@@ -11,7 +11,7 @@ function route($content, $path, $query) {
     if ('POST' === $_SERVER['REQUEST_METHOD'] && 0 === \strpos($path . '/', $p . '/')) {
         $error = 0;
         if (empty($_POST['pass']['token']) || !\check($_POST['pass']['token'], 'pass')) {
-            \Alert::error('Invalid token.');
+            \class_exists("\\Alert") && \Alert::error('Invalid token.');
             ++$error;
         }
         if (!empty($_POST['pass']['a'])) {
@@ -26,15 +26,15 @@ function route($content, $path, $query) {
                 }
                 if ($enter && 0 === $error) {
                     \cookie('page.pass', $a, '1 day');
-                    \Alert::success('Correct answer! This page will remain open to you for the next 1 day.');
+                    \class_exists("\\Alert") && \Alert::success('Correct answer! This page will remain open to you for the next 1 day.');
                 } else {
-                    \Alert::error('Wrong answer!');
+                    \class_exists("\\Alert") && \Alert::error('Wrong answer!');
                 }
             } else {
-                \Alert::error('Wrong answer!');
+                \class_exists("\\Alert") && \Alert::error('Wrong answer!');
             }
         } else {
-            \Alert::error('Please fill out the %s field.', 'Pass');
+            \class_exists("\\Alert") && \Alert::error('Please fill out the %s field.', 'Pass');
         }
         \kick($_POST['pass']['kick'] ?? '/' . \explode('/', $path, 2)[1]);
     }
@@ -43,8 +43,8 @@ function route($content, $path, $query) {
         'is' => ['secret' => true]
     ]);
     $z = \defined("\\TEST") && \TEST ? '.' : '.min.';
-    \Asset::set(__DIR__ . \D . '..' . \D . '..' . \D . 'index' . $z . 'css', 20.1);
-    return [__DIR__ . \D . '..' . \D . 'y' . \D . 'pass.php', [], 403];
+    \class_exists("\\Asset") && \Asset::set(__DIR__ . \D . '..' . \D . '..' . \D . 'index' . $z . 'css', 20.1);
+    return ['pass', [], 403];
 }
 
 \Hook::set('route', __NAMESPACE__ . "\\route", 0);
