@@ -1,0 +1,12 @@
+{
+  "description": "Restrict page access using secret pass code.",
+  "license": "GPL-3.0-or-later",
+  "name": "mecha-cms/x.pass",
+  "require": {
+    "mecha-cms/x.page": "^2.0.0"
+  },
+  "suggest": {
+    "mecha-cms/x.alert": "Install this extension to be able to display status messages properly.",
+    "mecha-cms/x.asset": "Install this extension to be able to load asset files automatically. This extension should have been installed automatically when you first created the project."
+  }
+}

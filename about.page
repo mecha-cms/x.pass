@@ -7,7 +7,8 @@ type: Markdown
 version: 3.0.0
 
 use:
-  '.\lot\x\asset': 1
+  '.\lot\x\alert': 0
+  '.\lot\x\asset': 0
   '.\lot\x\page': 1
 ...
 
