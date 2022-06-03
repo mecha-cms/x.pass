@@ -12,9 +12,11 @@
 
   $tasks = [
       'alert' => self::alert(),
-      'description' => $q ? [
+      'description' => ($q = To::description($q)) ? [
           0 => 'p',
-          1 => $q
+          // This `<span>` wrapper is required because parent element currently has `flex` display
+          // It aims to prevent the child element(s) like `<em>` and `<strong>` from getting messy
+          1 => '<span>' . $q . '</span>'
       ] : null,
       'pass' => [
           0 => 'p',
@@ -42,10 +44,7 @@
       0 => 'p',
       1 => (new HTML([
           0 => 'label',
-          1 => i('Actions'),
-          2 => [
-              'for' => $id = 'f:' . substr(uniqid(), 6)
-          ]
+          1 => i('Actions')
       ])) . '<br><span role="group">' . x\pass\hook('pass-form-tasks', [[
           'enter' => [
               0 => 'button',
