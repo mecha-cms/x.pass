@@ -1,6 +1,6 @@
 <?php
 
-Hook::set('_', function($_) {
+Hook::set('_', function ($_) {
     if (isset($_['lot']['desk']['lot']['form']['lot'][1]['lot']['tabs']['lot']) && 0 === strpos($_['type'] . '/', 'page/page/')) {
         $num_1 = rand(0, 5);
         $num_2 = rand(0, 5);
