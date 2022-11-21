@@ -11,7 +11,7 @@
   </head>
   <body>
     <div>
-      <?= self::form('pass'); ?>
+      <?= self::form('pass', ['kick' => $_GET['kick'] ?? null]); ?>
     </div>
   </body>
 </html>
