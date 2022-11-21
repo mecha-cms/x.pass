@@ -43,6 +43,7 @@ echo new HTML(Hook::fire('y.form.pass', [[
                                 'autofocus' => true,
                                 'id' => $id,
                                 'name' => 'pass[a]',
+                                'placeholder' => $h,
                                 'type' => 'password'
                             ]
                         ]

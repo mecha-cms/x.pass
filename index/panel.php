@@ -5,7 +5,10 @@ Hook::set('_', function ($_) {
         $num_1 = rand(0, 5);
         $num_2 = rand(0, 5);
         $num_3 = $num_1 + $num_2;
-        $page = new Page($_['file'] ?: null);
+        if ('get' === $_['task'] && !$_['file']) {
+            return $_;
+        }
+        $page = new Page($_['file']);
         $pass = (array) $page['pass'];
         if (isset($pass[0]) && !isset($pass['a'])) {
             $pass = ['a' => $pass[0]];
@@ -13,7 +16,7 @@ Hook::set('_', function ($_) {
         $_['lot']['desk']['lot']['form']['lot'][1]['lot']['tabs']['lot']['pass'] = [
             'lot' => [
                 'fields' => [
-                    'description' => 'Protect this page by adding a secret question that can only be answered by the visitors to which you have been told the answer. The question and hint fields are optional. You can also just provide a text input to write the secret answer without asking any questions.',
+                    'description' => 'Make this page private by adding a secret pass code. Share the secret pass code with your trusted frields. Question and hint fields are optional, but if you have friends you can trust, you can write down a question and its answer which only they know.',
                     'type' => 'fields',
                     'lot' => [
                         'q' => [
