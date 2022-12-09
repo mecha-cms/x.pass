@@ -78,7 +78,7 @@ function route($content, $path, $query, $hash) {
                         \cookie('page.pass', $try, '+1 day');
                         \class_exists("\\Alert") && \Alert::success('Correct answer! This page will remain open to you for the next 1 day.');
                     } else {
-                        \class_exists("\\Alert") && \Alert::error('Wrong answer!');
+                        \class_exists("\\Alert") && \Alert::error('Incorrect answer!');
                     }
                 } else {
                     \class_exists("\\Alert") && \Alert::error('Please fill out the %s field.', 'Pass');
