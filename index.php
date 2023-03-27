@@ -50,7 +50,7 @@ function route($content, $path, $query, $hash) {
         $a = (string) \trim(\is_array($pass_current) ? ($pass_current['a'] ?? "") : $pass_current);
         \State::set('has.pass', true);
         if ($pass && $pass === $a) {
-            \State::set('has.grant', true);
+            \State::set('has.user', true);
         } else {
             // Redirect to parent page that has `pass` property
             if ('GET' === $_SERVER['REQUEST_METHOD'] && 0 === \strpos($url->current(false, false), $page->url . '/')) {

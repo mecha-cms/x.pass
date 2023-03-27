@@ -6,11 +6,6 @@ color: '#842a2a'
 author: Taufik Nurrohman
 type: Markdown
 version: 3.0.0
-
-use:
-  '.\lot\x\alert': 0
-  '.\lot\x\asset': 0
-  '.\lot\x\page': 1
 ...
 
 ### Usage
