@@ -5,7 +5,7 @@ function page__content($content) {
     if ($pass_current && 0 !== \strpos($this->path ?? "", \LOT . \D . 'user' . \D)) {
         $pass = (string) \cookie('page.pass');
         $a = (string) \trim(\is_array($pass_current) ? ($pass_current['a'] ?? "") : $pass_current);
-        if ($pass && $pass === $a) {
+        if ($pass && (0 === \strpos($a, \P) && \password_verify($pass, \substr($a, 1)) || $pass === $a)) {
             return $content;
         }
         return '<p role="status">' . \i('This %s is protected by a pass code.', ['page']) . '</p>';
@@ -34,22 +34,20 @@ function route__page($content, $path, $query, $hash) {
                 break;
             }
             // Get `pass` data from internal data
-            $start = \defined("\\YAML\\SOH") ? \YAML\SOH : '---';
-            $end = \defined("\\YAML\\EOT") ? \YAML\EOT : '...';
             foreach (\stream($file) as $k => $v) {
-                if (0 === $k && $start . "\n" !== $v) {
-                    // No header marker means no property at all
+                // No `---\n` part at the start of the stream means no page header at all
+                if (0 === $k && "---\n" !== $v && 3 !== \strspn($v, '-')) {
                     break;
                 }
-                if ($end . "\n" === $v) {
-                    // End header marker means no `pass` property found
+                // Has reached the `...\n` part in the stream means the end of the page header
+                if ("...\n" === $v) {
                     break;
                 }
-                if (
-                    0 === \strpos($v, 'pass:') ||
-                    0 === \strpos($v, '"pass":') ||
-                    0 === \strpos($v, "'pass':")
-                ) {
+                // Test for `{ asdf: asdf }` part in the stream
+                if ($v && '{' === $v[0]) {
+                    $v = \trim(\substr(\trim(\strstr($v, '#', true) ?: $v), 1, -1));
+                }
+                if ($v && ('pass' === \strtok($v, " :\n\t") || '"' === $v[0] && \preg_match('/^"pass"\s*:/', $v) || "'" === $v[0] && \preg_match("/^'pass'\\s*:/", $v))) {
                     $page = new \Page($file); // Found one!
                     break;
                 }
